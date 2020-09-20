@@ -2,6 +2,9 @@ package com.cprime.bonfireevents.domain;
 
 import com.cprime.bonfireevents.exception.EventException;
 import org.junit.jupiter.api.Test;
+
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.*;
 public class EventTest {
 
@@ -25,4 +28,24 @@ public class EventTest {
             new Event( null, null);
         });
     }
+
+    // S1-7: When initially created, the event state is "draft" and is not "publicized."
+
+    @Test
+    public void testThatWhenEventCreatedStateIsDraft() {
+        Event event = new Event("A title", "A description");
+        String expectedState = "draft";
+        assertEquals(expectedState, event.getState() );
+    }
+
+    // S1-3 Event can have starting and ending dates and times.
+    @Test
+    public void testThatCanSetStartandEndonDate() {
+        Event event = new Event("A title", "A description");
+        Date expectedDate = new Date();
+        event.setStart(expectedDate);
+        assertEquals( expectedDate, event.getStart());
+    }
+
+
 }

@@ -2,10 +2,14 @@ package com.cprime.bonfireevents.domain;
 
 import com.cprime.bonfireevents.exception.EventException;
 
+import java.util.Date;
+
 public class Event {
 
     private String title;
     private String description;
+    private String state;
+    private Date start;
 
     public Event(String title, String description) {
         if( title == null || title.equals("") || description == null || description.equals("") ) {
@@ -14,6 +18,8 @@ public class Event {
 
         this.title = title;
         this.description = description;
+        state = "draft";
+
 
     }
 
@@ -33,6 +39,18 @@ public class Event {
         this.description = description;
     }
 
+    public String getState (){
+
+            return state;
+    }
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
 
 
 }
