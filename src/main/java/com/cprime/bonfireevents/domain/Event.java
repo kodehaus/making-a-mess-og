@@ -11,6 +11,9 @@ public class Event {
     private String state;
     private Date start;
 
+
+    private Date end;
+
     public Event(String title, String description) {
         if( title == null || title.equals("") || description == null || description.equals("") ) {
             throw new EventException();
@@ -50,6 +53,13 @@ public class Event {
 
     public void setStart(Date start) {
         this.start = start;
+    }
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
     }
 
 

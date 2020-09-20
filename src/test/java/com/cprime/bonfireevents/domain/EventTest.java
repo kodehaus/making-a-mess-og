@@ -3,6 +3,7 @@ package com.cprime.bonfireevents.domain;
 import com.cprime.bonfireevents.exception.EventException;
 import org.junit.jupiter.api.Test;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,14 +39,27 @@ public class EventTest {
         assertEquals(expectedState, event.getState() );
     }
 
+
+    public Date yesterday() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1); // number represents number of days
+        Date yesterday = cal.getTime();
+        return yesterday;
+    }
+
     // S1-3 Event can have starting and ending dates and times.
     @Test
     public void testThatCanSetStartandEndonDate() {
         Event event = new Event("A title", "A description");
         Date expectedDate = new Date();
-        event.setStart(expectedDate);
-        assertEquals( expectedDate, event.getStart());
+        Date yesterday=yesterday();
+        event.setStart(yesterday);
+        assertEquals( yesterday, event.getStart());
+        event.setEnd(expectedDate);
+        assertEquals( expectedDate, event.getEnd());
     }
+
+
 
 
 }
