@@ -10,9 +10,8 @@ public class Event {
     private String description;
     private String state;
     private Date start;
-
-
     private Date end;
+
 
     public Event(String title, String description) {
         if( title == null || title.equals("") || description == null || description.equals("") ) {
@@ -22,8 +21,6 @@ public class Event {
         this.title = title;
         this.description = description;
         state = "draft";
-
-
     }
 
     public String getTitle() {
