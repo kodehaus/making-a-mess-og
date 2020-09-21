@@ -52,13 +52,21 @@ public class Event {
     }
 
     public void setStart(Date start) {
+        Date now = new Date();
+        if (start.before(now)) {
+            throw new EventException();
+        }
         this.start = start;
     }
+
     public Date getEnd() {
         return end;
     }
 
     public void setEnd(Date end) {
+        if (end.before(start)) {
+            throw new EventException();
+        }
         this.end = end;
     }
 

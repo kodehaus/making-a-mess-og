@@ -40,25 +40,56 @@ public class EventTest {
     }
 
 
-    public Date yesterday() {
+    public Date getNowPlusSomeDays(int howManyDays) {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -1); // number represents number of days
+        cal.add(Calendar.DATE, howManyDays); // number represents number of days
         Date yesterday = cal.getTime();
         return yesterday;
     }
+
+//    public Date tomorrow() {
+//        Calendar cal = Calendar.getInstance();
+//        cal.add(Calendar.DATE, +1); // number represents number of days
+//        Date yesterday = cal.getTime();
+//        return yesterday;
+//    }
+
 
     // S1-3 Event can have starting and ending dates and times.
     @Test
     public void testThatCanSetStartandEndonDate() {
         Event event = new Event("A title", "A description");
-        Date expectedDate = new Date();
-        Date yesterday=yesterday();
-        event.setStart(yesterday);
-        assertEquals( yesterday, event.getStart());
-        event.setEnd(expectedDate);
-        assertEquals( expectedDate, event.getEnd());
+        Date tomorrow= getNowPlusSomeDays(1);
+        event.setStart(tomorrow);
+        assertEquals( tomorrow, event.getStart());
+        event.setEnd(tomorrow);
+        assertEquals( tomorrow, event.getEnd());
+    }
+// S1-5 The event start date must be in the future.
+    @Test
+    public void testThatStartDateIsInTheFuture(){
+        Event event = new Event ("A title", "A description");
+        assertThrows(EventException.class, () -> {
+            Date yesterday=getNowPlusSomeDays(-1);
+            event.setStart(yesterday);
+        });
+
     }
 
+
+    // S1-4 Start date must be earlier than the end date.
+    @Test
+    public void testThatEndDateBeforeStartDateThrowsException() {
+        Event event = new Event ("A title", "A description");
+
+        Date tomorrow = getNowPlusSomeDays(1);
+        Date nextNextDay = getNowPlusSomeDays(2);
+        assertThrows(EventException.class, () -> {
+            event.setStart(nextNextDay);
+            event.setEnd(tomorrow);
+        });
+
+    }
 
 
 
