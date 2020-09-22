@@ -12,6 +12,10 @@ public class Event {
     private Date start;
     private Date end;
 
+    public Event() {
+
+    }
+
 
     public Event(String title, String description) {
         if( title == null || title.equals("") || description == null || description.equals("") ) {

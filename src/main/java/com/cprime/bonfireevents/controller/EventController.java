@@ -1,9 +1,10 @@
 package com.cprime.bonfireevents.controller;
 
 import com.cprime.bonfireevents.domain.Event;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.function.ServerRequest;
 
 @RestController
 public class EventController {
@@ -12,5 +13,10 @@ public class EventController {
     public Event getEvent(@PathVariable("id") int id) {
         Event event = new Event("T1", "D1");
         return event;
+    }
+
+    @PostMapping("/event")
+    public ResponseEntity<Event> postEvent(@RequestBody Event event) {
+        return new ResponseEntity<Event>(null, null, HttpStatus.CREATED);
     }
 }
