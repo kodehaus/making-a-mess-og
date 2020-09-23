@@ -17,6 +17,7 @@ public class EventController {
 
     @PostMapping("/event")
     public ResponseEntity<Event> postEvent(@RequestBody Event event) {
+        event.validate();
         return new ResponseEntity<Event>(null, null, HttpStatus.CREATED);
     }
 }

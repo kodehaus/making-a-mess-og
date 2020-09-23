@@ -18,13 +18,10 @@ public class Event {
 
 
     public Event(String title, String description) {
-        if( title == null || title.equals("") || description == null || description.equals("") ) {
-            throw new EventException();
-        }
-
         this.title = title;
         this.description = description;
         state = "draft";
+        validate();
     }
 
     public String getTitle() {
@@ -53,11 +50,8 @@ public class Event {
     }
 
     public void setStart(Date start) {
-        Date now = new Date();
-        if (start.before(now)) {
-            throw new EventException();
-        }
         this.start = start;
+        validate();
     }
 
     public Date getEnd() {
@@ -65,11 +59,25 @@ public class Event {
     }
 
     public void setEnd(Date end) {
-        if (end.before(start)) {
-            throw new EventException();
-        }
         this.end = end;
+        validate();
     }
 
+    public void validate() throws EventException {
+        if( title == null || title.equals("") || description == null || description.equals("") ) {
+            throw new EventException();
+        }
+        Date now = new Date();
+        if (start != null) {
+            if(start.before(now)) {
+                throw new EventException();
+            }
+            if (end != null && end.before(start)) {
+                throw new EventException();
+            }
+
+        }
+
+    }
 
 }
