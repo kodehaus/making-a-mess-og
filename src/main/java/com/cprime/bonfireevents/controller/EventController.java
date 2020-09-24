@@ -1,10 +1,11 @@
 package com.cprime.bonfireevents.controller;
 
 import com.cprime.bonfireevents.domain.Event;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.ServerRequest;
+
 
 @RestController
 public class EventController {
@@ -18,6 +19,8 @@ public class EventController {
     @PostMapping("/event")
     public ResponseEntity<Event> postEvent(@RequestBody Event event) {
         event.validate();
-        return new ResponseEntity<Event>(null, null, HttpStatus.CREATED);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/event/"+event.getId());
+        return new ResponseEntity<Event>(event, headers, HttpStatus.CREATED);
     }
 }

@@ -18,6 +18,7 @@ public class Event {
     public static final Event TEST_EVENT = new Event(0,"TEST", "Test");
 
     public Event() {
+        state = "draft";
         generateId();
     }
 
@@ -25,7 +26,6 @@ public class Event {
         this();
         this.title = title;
         this.description = description;
-        state = "draft";
     }
 
     private Event(int id, String title, String description) {
