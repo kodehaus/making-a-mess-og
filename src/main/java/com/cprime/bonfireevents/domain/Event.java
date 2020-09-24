@@ -3,27 +3,45 @@ package com.cprime.bonfireevents.domain;
 import com.cprime.bonfireevents.exception.EventException;
 
 import java.util.Date;
+import java.util.Random;
 
 public class Event {
 
+
+    private long id;
     private String title;
     private String description;
     private String state;
     private Date start;
     private Date end;
 
-    public Event() {
+    public static final Event TEST_EVENT = new Event(0,"TEST", "Test");
 
+    public Event() {
+        generateId();
     }
 
-
     public Event(String title, String description) {
+        this();
         this.title = title;
         this.description = description;
         state = "draft";
-        validate();
     }
 
+    private Event(int id, String title, String description) {
+        this.id=id;
+        this.title = title;
+        this.description = description;
+        state = "draft";
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    private void setId(long id) {
+        this.id = id;
+    }
     public String getTitle() {
         return title;
     }
@@ -41,8 +59,7 @@ public class Event {
     }
 
     public String getState (){
-
-            return state;
+        return state;
     }
 
     public Date getStart() {
@@ -51,7 +68,6 @@ public class Event {
 
     public void setStart(Date start) {
         this.start = start;
-        validate();
     }
 
     public Date getEnd() {
@@ -60,7 +76,6 @@ public class Event {
 
     public void setEnd(Date end) {
         this.end = end;
-        validate();
     }
 
     public void validate() throws EventException {
@@ -77,7 +92,13 @@ public class Event {
             }
 
         }
-
     }
+
+    private void generateId() {
+        Random random = new Random();
+        id = ((long) (random.nextDouble() * Long.MAX_VALUE) );
+    }
+
+
 
 }
