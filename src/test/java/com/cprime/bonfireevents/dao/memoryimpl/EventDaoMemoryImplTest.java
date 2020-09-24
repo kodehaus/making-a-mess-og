@@ -5,6 +5,8 @@ import com.cprime.bonfireevents.dao.EventDao;
 import com.cprime.bonfireevents.domain.Event;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class EventDaoMemoryImplTest {
 
     @Test
@@ -12,6 +14,12 @@ public class EventDaoMemoryImplTest {
         EventDao dao = new EventDaoMemoryImpl();
     }
 
+    @Test
+    public void testThatEventDaoFindZeroFindsDefaultEvent() {
+        EventDao eventDao = new EventDaoMemoryImpl();
+        Event e = eventDao.findById(0);
+        assertEquals(Event.TEST_EVENT, e);
+    }
 
 
 }
