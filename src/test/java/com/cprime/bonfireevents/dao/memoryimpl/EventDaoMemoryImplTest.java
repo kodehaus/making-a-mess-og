@@ -21,5 +21,12 @@ public class EventDaoMemoryImplTest {
         assertEquals(Event.TEST_EVENT, e);
     }
 
+    @Test
+    public void testThatEventsPutIntoDaoCanBeRetrieved() {
+        EventDao eventDao = new EventDaoMemoryImpl();
+        Event event = new Event("ABC", "def");
+        eventDao.add(event);
+        Event event2 = eventDao.findById(event.getId());
+    }
 
 }
