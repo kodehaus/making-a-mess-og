@@ -8,14 +8,14 @@ import java.util.HashMap;
 import java.util.Map;
 @Service
 public class EventDaoMemoryImpl implements EventDao {
-    Map<Long, Event> events = new HashMap<>();
+    Map<Integer, Event> events = new HashMap<>();
 
     public EventDaoMemoryImpl() {
-        events.put(0L, Event.TEST_EVENT);
+        events.put(0, Event.TEST_EVENT);
     }
 
     @Override
-    public Event findById(long id) {
+    public Event findById(int id) {
         return events.get(id);
     }
 

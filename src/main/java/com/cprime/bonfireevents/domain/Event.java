@@ -8,7 +8,7 @@ import java.util.Random;
 public class Event {
 
 
-    private long id;
+    private int id;
     private String title;
     private String description;
     private String state;
@@ -35,11 +35,11 @@ public class Event {
         state = "draft";
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    private void setId(long id) {
+    private void setId(int id) {
         this.id = id;
     }
     public String getTitle() {
@@ -96,7 +96,7 @@ public class Event {
 
     private void generateId() {
         Random random = new Random();
-        id = ((long) (random.nextDouble() * Long.MAX_VALUE) );
+        id = random.nextInt(Integer.MAX_VALUE) ;
     }
 
 

@@ -3,7 +3,7 @@ package com.cprime.bonfireevents.dao;
 import com.cprime.bonfireevents.domain.Event;
 
 public interface EventDao {
-    Event findById(long id);
+    Event findById(int id);
 
     void add(Event event);
 }

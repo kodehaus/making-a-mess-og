@@ -15,7 +15,7 @@ public class EventController {
     EventDao dao;
 
     @GetMapping("/event/{id}")
-    public Event getEvent(@PathVariable("id") long id) {
+    public Event getEvent(@PathVariable("id") int id) {
         Event event = dao.findById(id);
 
         return event;

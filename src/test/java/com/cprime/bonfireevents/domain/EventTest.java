@@ -17,6 +17,7 @@ public class EventTest {
         assertEquals("A description", event.getDescription());
     }
 
+
     @Test
     public void testThatNewEventTitleAndDescriptionNotBlank() {
         assertThrows(EventException.class, () -> {

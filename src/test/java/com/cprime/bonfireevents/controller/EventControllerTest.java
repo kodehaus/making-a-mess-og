@@ -69,7 +69,7 @@ public class EventControllerTest {
                         .content(basicEventJson)
             ).andReturn();
 
-        Long id = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+        int id = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
 
         mockMvc.perform(
                     get("/event/"+id)
