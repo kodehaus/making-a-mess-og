@@ -2,7 +2,9 @@ package com.cprime.bonfireevents.domain;
 
 import com.cprime.bonfireevents.exception.EventException;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 public class Event {
@@ -14,13 +16,14 @@ public class Event {
     private String state;
     private Date start;
     private Date end;
-    private Organizer organizer;
+    private List<Organizer> organizers;
 
     public static final Event TEST_EVENT = new Event(0,"TEST", "Test");
 
     public Event() {
         state = "draft";
         generateId();
+        organizers = new ArrayList<>();
     }
 
     public Event(String title, String description) {
@@ -79,12 +82,12 @@ public class Event {
         this.end = end;
     }
 
-    public Organizer getOrganizer() {
-        return organizer;
+    public List<Organizer> getOrganizers() {
+        return organizers;
     }
 
-    public void setOrganizer(Organizer organizer) {
-        this.organizer = organizer;
+    public void addOrganizer(Organizer organizer) {
+        organizers.add(organizer);
     }
 
 

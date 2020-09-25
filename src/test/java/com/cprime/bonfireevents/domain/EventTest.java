@@ -111,10 +111,29 @@ public class EventTest {
        Organizer host = new Organizer(1234, "John");
 
      //Act
-        event.setOrganizer(host);
+        event.addOrganizer(host);
      //Assert
-        Assertions.assertEquals(1234, event.getOrganizer().getId());
-        Assertions.assertEquals("John", event.getOrganizer().getName());
+        Assertions.assertTrue(event.getOrganizers().contains(host));
+
+    }
+
+    @Test
+    public void testThatEventCanHaveMultipleOrganizers(){
+        //Arrange
+        Event event = new Event("A title", "A description");
+        Organizer host = new Organizer(1234, "John");
+        Organizer otherHost = new Organizer(5678, "Stephen");
+
+        //Act
+        event.addOrganizer(host);
+        event.addOrganizer(otherHost);
+
+        //Assert
+        Assertions.assertTrue(event.getOrganizers().contains(host));
+        Assertions.assertTrue(event.getOrganizers().contains(otherHost));
+
+
+
     }
 
 
