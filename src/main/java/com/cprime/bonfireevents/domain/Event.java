@@ -87,6 +87,9 @@ public class Event {
     }
 
     public void addOrganizer(Organizer organizer) {
+        if (organizers.contains(organizer)) {
+            throw new EventException();
+        }
         organizers.add(organizer);
     }
 

@@ -145,6 +145,19 @@ public class EventTest {
 
     }
 
+    @Test
+    public void testThatEventMustNotHaveDuplicateOrganizers() {
+        //Arrange
+        Event event = new Event ("A title", "A description");
+        Organizer host = new Organizer(1234, "John");
+        //Act
+        event.addOrganizer(host);
 
+        //Assert
+        assertThrows(EventException.class, () -> {
+            event.addOrganizer(host);
+        });
+
+    }
 
 }
