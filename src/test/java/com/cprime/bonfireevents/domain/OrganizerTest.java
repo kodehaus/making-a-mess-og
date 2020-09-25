@@ -13,7 +13,9 @@ public class OrganizerTest {
     }
     @Test
     public void testThatOrganizerTakesIdAndName() {
+        //Act
         Organizer organizer = new Organizer(1234, "John");
+        //Assert
         assertEquals(1234, organizer.getId());
         assertEquals("John", organizer.getName());
 

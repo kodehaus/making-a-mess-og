@@ -1,6 +1,7 @@
 package com.cprime.bonfireevents.domain;
 
 import com.cprime.bonfireevents.exception.EventException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
@@ -51,11 +52,14 @@ public class EventTest {
     // S1-3 Event can have starting and ending dates and times.
     @Test
     public void testThatCanSetStartandEndDate() {
+        //ARRANGE
         Event event = new Event("A title", "A description");
         Date tomorrow= UTILITY_METHOD_getNowPlusSomeDays(1);
+        //ACT
         event.setStart(tomorrow);
-        assertEquals( tomorrow, event.getStart());
         event.setEnd(tomorrow);
+        //ASSERT
+        assertEquals( tomorrow, event.getStart());
         assertEquals( tomorrow, event.getEnd());
     }
 // S1-5 The event start date must be in the future.
@@ -99,6 +103,18 @@ public class EventTest {
         assertEquals("TEST", event.getTitle());
         assertEquals("Test", event.getDescription());
         assertEquals("draft", event.getState());
+    }
+    @Test
+    public void testThatEventCanHaveOrganizer(){
+     //Arrange
+       Event event = new Event("A title", "A description");
+       Organizer host = new Organizer(1234, "John");
+
+     //Act
+        event.setOrganizer(host);
+     //Assert
+        Assertions.assertEquals(1234, event.getOrganizer().getId());
+        Assertions.assertEquals("John", event.getOrganizer().getName());
     }
 
 

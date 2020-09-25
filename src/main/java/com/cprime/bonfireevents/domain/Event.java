@@ -14,6 +14,7 @@ public class Event {
     private String state;
     private Date start;
     private Date end;
+    private Organizer organizer;
 
     public static final Event TEST_EVENT = new Event(0,"TEST", "Test");
 
@@ -77,6 +78,15 @@ public class Event {
     public void setEnd(Date end) {
         this.end = end;
     }
+
+    public Organizer getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(Organizer organizer) {
+        this.organizer = organizer;
+    }
+
 
     public void validate() throws EventException {
         if( title == null || title.equals("") || description == null || description.equals("") ) {
