@@ -2,6 +2,7 @@ package com.cprime.bonfireevents.domain;
 
 import com.cprime.bonfireevents.exception.EventException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
@@ -9,6 +10,17 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class EventTest {
+
+    private Organizer otherHost;
+    private Event event;
+    private Organizer host;
+
+    @BeforeEach
+    void setUp() {
+        otherHost = new Organizer(5678, "Stephen");
+        event = new Event ("A title", "A description");
+        host = new Organizer(1234, "John");
+    }
 
     // S1-1: New events require a title and description.
     @Test
@@ -36,7 +48,6 @@ public class EventTest {
 
     @Test
     public void testThatWhenEventCreatedStateIsDraft() {
-        Event event = new Event("A title", "A description");
         String expectedState = "draft";
         assertEquals(expectedState, event.getState() );
     }
@@ -53,7 +64,6 @@ public class EventTest {
     @Test
     public void testThatCanSetStartandEndDate() {
         //ARRANGE
-        Event event = new Event("A title", "A description");
         Date tomorrow= UTILITY_METHOD_getNowPlusSomeDays(1);
         //ACT
         event.setStart(tomorrow);
@@ -65,7 +75,6 @@ public class EventTest {
 // S1-5 The event start date must be in the future.
     @Test
     public void testThatStartDateIsInTheFuture(){
-        Event event = new Event ("A title", "A description");
         assertThrows(EventException.class, () -> {
             Date yesterday= UTILITY_METHOD_getNowPlusSomeDays(-1);
             event.setStart(yesterday);
@@ -78,7 +87,6 @@ public class EventTest {
     // S1-4 Start date must be earlier than the end date.
     @Test
     public void testThatEndDateBeforeStartDateThrowsException() {
-        Event event = new Event ("A title", "A description");
 
         Date tomorrow = UTILITY_METHOD_getNowPlusSomeDays(1);
         Date nextNextDay = UTILITY_METHOD_getNowPlusSomeDays(2);
@@ -92,7 +100,6 @@ public class EventTest {
 
     @Test
     public void testThatEventIdExists() {
-        Event event = new Event ("A title", "A description");
         assertTrue (event.getId() > 0);
     }
 
@@ -107,8 +114,6 @@ public class EventTest {
     @Test
     public void testThatEventCanHaveOrganizer(){
      //Arrange
-       Event event = new Event("A title", "A description");
-       Organizer host = new Organizer(1234, "John");
 
      //Act
         event.addOrganizer(host);
@@ -120,9 +125,7 @@ public class EventTest {
     @Test
     public void testThatEventCanHaveMultipleOrganizers(){
         //Arrange
-        Event event = new Event("A title", "A description");
-        Organizer host = new Organizer(1234, "John");
-        Organizer otherHost = new Organizer(5678, "Stephen");
+
 
         //Act
         event.addOrganizer(host);
@@ -137,7 +140,6 @@ public class EventTest {
     }
     @Test
     public void testThatEventMustHaveOneOrganizerThrowsException() {
-        Event event = new Event ("A title", "A description");
 
         assertThrows(EventException.class, () -> {
             event.validate();
@@ -148,8 +150,7 @@ public class EventTest {
     @Test
     public void testThatEventMustNotHaveDuplicateOrganizers() {
         //Arrange
-        Event event = new Event ("A title", "A description");
-        Organizer host = new Organizer(1234, "John");
+
         //Act
         event.addOrganizer(host);
 
@@ -160,4 +161,29 @@ public class EventTest {
 
     }
 
+    @Test
+    public void testThatRemoveTakesOrganizersOffEvent() {
+        //Arrange
+        event.addOrganizer(host);
+        event.addOrganizer(otherHost);
+        //Act
+        event.removeOrganizer(otherHost);
+        //Assert
+        Assertions.assertTrue(event.getOrganizers().contains(host));
+        Assertions.assertFalse(event.getOrganizers().contains(otherHost));
+    }
+
+    @Test
+    public void testThatRemoveCannotRemoveLastOrganizer() {
+        //Arrange
+
+        //Act
+        event.addOrganizer(host);
+
+        //Assert
+        assertThrows(EventException.class, () -> {
+            event.removeOrganizer(host);
+        });
+
+    }
 }

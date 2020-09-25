@@ -93,6 +93,13 @@ public class Event {
         organizers.add(organizer);
     }
 
+    public void removeOrganizer(Organizer organizer) {
+        if (organizers.size() == 1 && organizers.contains(organizer)) {
+            throw new EventException();
+        }
+        organizers.remove(organizer);
+    }
+
 
     public void validate() throws EventException {
         if( title == null || title.equals("") || description == null || description.equals("") ) {
