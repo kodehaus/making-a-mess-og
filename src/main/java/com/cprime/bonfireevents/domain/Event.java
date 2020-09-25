@@ -105,6 +105,9 @@ public class Event {
             }
 
         }
+        if(organizers==null || organizers.size()==0){
+            throw new EventException();
+        }
     }
 
     private void generateId() {

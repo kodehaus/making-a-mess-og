@@ -2,6 +2,7 @@ package com.cprime.bonfireevents.controller;
 
 import com.cprime.bonfireevents.dao.EventDao;
 import com.cprime.bonfireevents.domain.Event;
+import com.cprime.bonfireevents.domain.Organizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,11 @@ public class EventController {
 
     @PostMapping("/event")
     public ResponseEntity<Event> postEvent(@RequestBody Event event) {
+
+        //add fake org
+        Organizer fakeOrg = new Organizer(12, "Jake");
+        event.addOrganizer(fakeOrg);
+
         event.validate();
         dao.add(event);
         HttpHeaders headers = new HttpHeaders();

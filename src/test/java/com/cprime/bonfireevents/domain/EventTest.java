@@ -135,6 +135,16 @@ public class EventTest {
 
 
     }
+    @Test
+    public void testThatEventMustHaveOneOrganizerThrowsException() {
+        Event event = new Event ("A title", "A description");
+
+        assertThrows(EventException.class, () -> {
+            event.validate();
+        });
+
+    }
+
 
 
 }
