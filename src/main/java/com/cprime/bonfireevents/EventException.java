@@ -1,4 +1,4 @@
-package com.cprime.bonfireevents.exception;
+package com.cprime.bonfireevents;
 
 public class EventException extends RuntimeException{
 }
