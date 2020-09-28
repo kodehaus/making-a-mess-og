@@ -159,4 +159,16 @@ public class Event {
         }
         ticketTypes.add(ticketType);
     }
+
+    public void publish(Date whenPublish) {
+        if (getTicketTypes().size() == 0) { // this handles unscheduled events
+            throw new EventException();
+        }
+        if (getStart().before(whenPublish) ) {
+            throw new EventException();
+        }
+        state = EventState.PUBLISHED;
+    }
+
+
 }

@@ -66,4 +66,7 @@ public class TicketTypeTest {
         assertEquals(now, type.getExpiration());
     }
 
+
+
+
 }

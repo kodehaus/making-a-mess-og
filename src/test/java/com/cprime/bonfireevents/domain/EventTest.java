@@ -298,4 +298,44 @@ public class EventTest {
         assertEquals(0, event.getTicketTypes().size());
     }
 
+    @Test
+    public void testThatSimplePublishMakesStatusPublished() {
+        //Arrange
+        event.setCapacity(30);
+        event.setStart(nextNextDay);
+        event.setEnd(thirdDay);
+        event.addTicketType(ticketType);
+        //Act
+        event.publish(new Date());
+        //Assert
+        assertEquals(EventState.PUBLISHED.toString(), event.getState());
+    }
+
+    @Test
+    public void testThatPublishFailsWithNoTickets() {
+        //Arrange
+        event.setCapacity(30);
+        event.setStart(nextNextDay);
+        event.setEnd(thirdDay);
+        //Act and Assert
+        assertThrows(EventException.class, () -> {
+            event.publish(new Date());
+        });
+    }
+
+    @Test
+    public void testThatPublishFailsWithStartDateInPast() {
+        //Arrange
+        event.setCapacity(30);
+        event.setStart(nextNextDay);
+        event.setEnd(thirdDay);
+        event.addTicketType(ticketType);
+        //Act and Assert
+        assertThrows(EventException.class, () -> {
+            event.publish(thirdDay);
+        });
+    }
+
+
+
 }
