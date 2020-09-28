@@ -215,13 +215,12 @@ public class EventTest {
     @Test
     public void testThatCantSetNegativeCapacity() {
         //Arrange
-
         //Act
-
         //Assert
         assertThrows(EventException.class, () -> {
             event.setCapacity(-2);
         });
-
     }
+
+
 }
