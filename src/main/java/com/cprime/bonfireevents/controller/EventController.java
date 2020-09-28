@@ -2,9 +2,11 @@ package com.cprime.bonfireevents.controller;
 
 import com.cprime.bonfireevents.adapter.OrganizerAdapter;
 import com.cprime.bonfireevents.adapter.UserAdapter;
+import com.cprime.bonfireevents.command.CreateEventCommand;
 import com.cprime.bonfireevents.dao.EventDao;
 import com.cprime.bonfireevents.domain.Event;
 import com.cprime.bonfireevents.domain.Organizer;
+import com.cprime.bonfireevents.dto.EventPostVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,10 +20,7 @@ public class EventController {
     EventDao dao;
 
     @Autowired
-    UserAdapter userAdapter;
-
-    @Autowired
-    OrganizerAdapter organizerAdapter;
+    CreateEventCommand createEventCommand;
 
     @GetMapping("/event/{id}")
     public Event getEvent(@PathVariable("id") int id) {
@@ -31,16 +30,16 @@ public class EventController {
     }
 
     @PostMapping("/event")
-    public ResponseEntity<Event> postEvent(@RequestBody Event event) {
+    public ResponseEntity<Event> postEvent(@RequestBody EventPostVO eventDto) {
 
-        int userId = userAdapter.getUserId();
-        Organizer organizer = organizerAdapter.getOrganizer(userId);
-        event.addOrganizer(organizer);
+        Event event = createEventCommand.execute(eventDto.title, eventDto.description);
 
-        event.validate();
         dao.add(event);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/event/"+event.getId());
         return new ResponseEntity<Event>(event, headers, HttpStatus.CREATED);
     }
+
+
+
 }
