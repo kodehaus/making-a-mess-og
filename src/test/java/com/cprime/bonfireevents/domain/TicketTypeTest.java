@@ -54,4 +54,16 @@ public class TicketTypeTest {
         });
     }
 
+    @Test
+    public void testThatThreeArgumentConstructorWorks() {
+        //Arrange
+        Date now = new Date();
+        //Act
+        TicketType type = new TicketType(20, 3.50, new Date());
+        //Assert
+        assertEquals(20, type.getMaximumQuantity());
+        assertEquals(3.50, type.getPrice(), 0.001);
+        assertEquals(now, type.getExpiration());
+    }
+
 }

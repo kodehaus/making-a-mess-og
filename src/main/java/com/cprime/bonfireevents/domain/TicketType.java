@@ -9,6 +9,16 @@ public class TicketType {
     private Date expiration;
     private double price;
 
+    public TicketType() {
+
+    }
+
+    public TicketType(int maximumQuantity, double price, Date expiration) {
+        this.maximumQuantity = maximumQuantity;
+        this.expiration = expiration;
+        this.price = price;
+    }
+
     public double getPrice() {
         return price;
     }

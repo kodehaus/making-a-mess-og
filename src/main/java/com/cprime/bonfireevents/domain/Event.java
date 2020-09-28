@@ -2,10 +2,8 @@ package com.cprime.bonfireevents.domain;
 
 import com.cprime.bonfireevents.exception.EventException;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Event {
 
@@ -17,6 +15,7 @@ public class Event {
     private Date start;
     private Date end;
     private List<Organizer> organizers;
+    private List<TicketType> ticketTypes;
     private int capacity;
 
     public static final Event TEST_EVENT = new Event(0,"TEST", "Test");
@@ -25,6 +24,7 @@ public class Event {
         state = EventState.DRAFT;
         generateId();
         organizers = new ArrayList<>();
+        ticketTypes = new ArrayList<>();
     }
 
     public Event(String title, String description) {
@@ -84,7 +84,7 @@ public class Event {
     }
 
     public List<Organizer> getOrganizers() {
-        return organizers;
+        return Collections.unmodifiableList(organizers);
     }
 
     public void addOrganizer(Organizer organizer) {
@@ -137,5 +137,26 @@ public class Event {
         } else {
             throw new EventException();
         }
+    }
+
+    public List<TicketType> getTicketTypes() {
+        Date now = new Date();
+        return Collections.unmodifiableList(
+                ticketTypes.stream()
+                        .filter(ticketType -> ticketType.getExpiration().after(now))
+                        .collect(Collectors.toList())
+        );
+    }
+
+    public void addTicketType(TicketType ticketType) {
+        if (getStart() == null ||
+                ticketType.getExpiration() == null ||
+                ticketType.getExpiration().after(getStart())) {
+            throw new EventException();
+        }
+        if (ticketType.getMaximumQuantity() > getCapacity() ) {
+            throw new EventException();
+        }
+        ticketTypes.add(ticketType);
     }
 }
