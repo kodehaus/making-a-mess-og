@@ -9,6 +9,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+
+
 public class EventTest {
 
     private Organizer otherHost;
@@ -183,6 +186,41 @@ public class EventTest {
         //Assert
         assertThrows(EventException.class, () -> {
             event.removeOrganizer(host);
+        });
+
+    }
+
+    @Test
+    public void testThatEventStartsWithCapacityZero() {
+        //Arrange
+
+        //Act
+
+        //Assert
+        assertEquals(0, event.getCapacity());
+
+    }
+
+    @Test
+    public void testThatCapacityPersistsWhenSet() {
+        //Arrange
+
+        //Act
+        event.setCapacity(20);
+        //Assert
+        assertEquals(20, event.getCapacity());
+
+    }
+
+    @Test
+    public void testThatCantSetNegativeCapacity() {
+        //Arrange
+
+        //Act
+
+        //Assert
+        assertThrows(EventException.class, () -> {
+            event.setCapacity(-2);
         });
 
     }

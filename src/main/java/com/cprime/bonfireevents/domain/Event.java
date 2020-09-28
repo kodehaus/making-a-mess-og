@@ -17,6 +17,7 @@ public class Event {
     private Date start;
     private Date end;
     private List<Organizer> organizers;
+    private int capacity;
 
     public static final Event TEST_EVENT = new Event(0,"TEST", "Test");
 
@@ -126,5 +127,15 @@ public class Event {
     }
 
 
+    public int getCapacity() {
+        return capacity;
+    }
 
+    public void setCapacity(int cap) {
+        if (cap > 0) {
+            capacity = cap;
+        } else {
+            throw new EventException();
+        }
+    }
 }
