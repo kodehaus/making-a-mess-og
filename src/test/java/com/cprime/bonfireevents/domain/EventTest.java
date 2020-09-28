@@ -48,8 +48,8 @@ public class EventTest {
 
     @Test
     public void testThatWhenEventCreatedStateIsDraft() {
-        String expectedState = "draft";
-        assertEquals(expectedState, event.getState() );
+        EventState expectedState = EventState.DRAFT;
+        assertEquals(expectedState.toString(), event.getState() );
     }
 
 
@@ -109,7 +109,7 @@ public class EventTest {
         assertEquals(0L, event.getId());
         assertEquals("TEST", event.getTitle());
         assertEquals("Test", event.getDescription());
-        assertEquals("draft", event.getState());
+        assertEquals(EventState.DRAFT.toString(), event.getState());
     }
     @Test
     public void testThatEventCanHaveOrganizer(){

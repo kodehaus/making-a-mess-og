@@ -13,7 +13,7 @@ public class Event {
     private int id;
     private String title;
     private String description;
-    private String state;
+    private EventState state;
     private Date start;
     private Date end;
     private List<Organizer> organizers;
@@ -21,7 +21,7 @@ public class Event {
     public static final Event TEST_EVENT = new Event(0,"TEST", "Test");
 
     public Event() {
-        state = "draft";
+        state = EventState.DRAFT;
         generateId();
         organizers = new ArrayList<>();
     }
@@ -36,7 +36,7 @@ public class Event {
         this.id=id;
         this.title = title;
         this.description = description;
-        state = "draft";
+        state = EventState.DRAFT;
     }
 
     public int getId() {
@@ -63,7 +63,7 @@ public class Event {
     }
 
     public String getState (){
-        return state;
+        return state.toString();
     }
 
     public Date getStart() {

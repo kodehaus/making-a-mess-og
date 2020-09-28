@@ -80,6 +80,22 @@ public class EventControllerTest {
                 .andExpect(jsonPath("$.id").isNotEmpty());
     }
 
+    @Test
+    public void testThatPostedEventHasOrganizer() throws Exception {
+        MvcResult result = mockMvc.perform(
+                    post("/event")
+                        .contentType("application/json")
+                        .content(basicEventJson)
+                )
+                .andReturn();
 
+        int id = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+
+        mockMvc.perform(
+                    get("/event/"+id)
+                )
+                .andExpect(jsonPath("$.organizers[0].id").value(1234))
+                .andExpect(jsonPath("$.organizers[0].name").value("Bob"));
+    }
 
 }
