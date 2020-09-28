@@ -1,11 +1,11 @@
 package com.cprime.bonfireevents.domain;
 
 import com.cprime.bonfireevents.exception.EventException;
+import com.cprime.bonfireevents.utility.TestUtility;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,17 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class EventTest {
-
-    static final Date tomorrow = GET_NOW_PLUS_DAYS(1);
-    static final Date nextNextDay = GET_NOW_PLUS_DAYS(2);
-    static final Date thirdDay = GET_NOW_PLUS_DAYS(3);
-
-    public static Date GET_NOW_PLUS_DAYS(int howManyDays) {
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, howManyDays); // number represents number of days
-        Date yesterday = cal.getTime();
-        return yesterday;
-    }
 
     private Organizer otherHost;
     private Event event;
@@ -36,7 +25,7 @@ public class EventTest {
         otherHost = new Organizer(5678, "Stephen");
         event = new Event ("A title", "A description");
         host = new Organizer(1234, "John");
-        ticketType = new TicketType(20, 3.50, tomorrow);
+        ticketType = new TicketType(20, 3.50, TestUtility.TOMORROW);
     }
 
     // S1-1: New events require a title and description.
@@ -77,17 +66,17 @@ public class EventTest {
     public void testThatCanSetStartandEndDate() {
         //ARRANGE
         //ACT
-        event.setStart(tomorrow);
-        event.setEnd(tomorrow);
+        event.setStart(TestUtility.TOMORROW);
+        event.setEnd(TestUtility.TOMORROW);
         //ASSERT
-        assertEquals( tomorrow, event.getStart());
-        assertEquals( tomorrow, event.getEnd());
+        assertEquals( TestUtility.TOMORROW, event.getStart());
+        assertEquals( TestUtility.TOMORROW, event.getEnd());
     }
 // S1-5 The event start date must be in the future.
     @Test
     public void testThatStartDateIsInTheFuture(){
         assertThrows(EventException.class, () -> {
-            Date yesterday= GET_NOW_PLUS_DAYS(-1);
+            Date yesterday= TestUtility.GET_NOW_PLUS_DAYS(-1);
             event.setStart(yesterday);
             event.validate();
         });
@@ -100,8 +89,8 @@ public class EventTest {
     public void testThatEndDateBeforeStartDateThrowsException() {
 
         assertThrows(EventException.class, () -> {
-            event.setStart(nextNextDay);
-            event.setEnd(tomorrow);
+            event.setStart(TestUtility.NEXT_DAY);
+            event.setEnd(TestUtility.TOMORROW);
             event.validate();
         });
 
@@ -238,7 +227,7 @@ public class EventTest {
 
     @Test
     public void testThatAddTicketTypeWorks() {
-        event.setStart(nextNextDay);
+        event.setStart(TestUtility.NEXT_DAY);
         event.setCapacity(30);
         event.addTicketType(ticketType);
         assertEquals(1, event.getTicketTypes().size());
@@ -262,9 +251,9 @@ public class EventTest {
     @Test
     public void testThatAddTicketTypeFailsIfExpirationIsAfterEventStartDate() {
         //Arrange
-        event.setStart(tomorrow);
-        event.setEnd(nextNextDay);
-        TicketType type2 = new TicketType(20, 3.50, thirdDay);
+        event.setStart(TestUtility.TOMORROW);
+        event.setEnd(TestUtility.NEXT_DAY);
+        TicketType type2 = new TicketType(20, 3.50, TestUtility.THIRD_DAY);
 
         //Act+Assert
         assertThrows(Exception.class, () -> {
@@ -276,9 +265,9 @@ public class EventTest {
     public void testThatAddTicketTypeFailsIfTicketAmountMoreThanCapacity() {
         //Arrange
         event.setCapacity(10);
-        event.setStart(nextNextDay);
-        event.setEnd(thirdDay);
-        TicketType type2 = new TicketType(20, 3.50, tomorrow);
+        event.setStart(TestUtility.NEXT_DAY);
+        event.setEnd(TestUtility.THIRD_DAY);
+        TicketType type2 = new TicketType(20, 3.50, TestUtility.TOMORROW);
 
         //Act+Assert
         assertThrows(Exception.class, () -> {
@@ -290,9 +279,9 @@ public class EventTest {
     public void testThatTicketsArentAvailableAfterExpiration() {
         //Arrange
         event.setCapacity(30);
-        event.setStart(nextNextDay);
-        event.setEnd(thirdDay);
-        TicketType type2 = new TicketType(20, 3.50, GET_NOW_PLUS_DAYS(-1));
+        event.setStart(TestUtility.NEXT_DAY);
+        event.setEnd(TestUtility.THIRD_DAY);
+        TicketType type2 = new TicketType(20, 3.50, TestUtility.GET_NOW_PLUS_DAYS(-1));
         event.addTicketType(type2);
         //Act+Assert
         assertEquals(0, event.getTicketTypes().size());
@@ -302,8 +291,8 @@ public class EventTest {
     public void testThatSimplePublishMakesStatusPublished() {
         //Arrange
         event.setCapacity(30);
-        event.setStart(nextNextDay);
-        event.setEnd(thirdDay);
+        event.setStart(TestUtility.NEXT_DAY);
+        event.setEnd(TestUtility.THIRD_DAY);
         event.addTicketType(ticketType);
         //Act
         event.publish(new Date());
@@ -315,8 +304,8 @@ public class EventTest {
     public void testThatPublishFailsWithNoTickets() {
         //Arrange
         event.setCapacity(30);
-        event.setStart(nextNextDay);
-        event.setEnd(thirdDay);
+        event.setStart(TestUtility.NEXT_DAY);
+        event.setEnd(TestUtility.THIRD_DAY);
         //Act and Assert
         assertThrows(EventException.class, () -> {
             event.publish(new Date());
@@ -327,12 +316,12 @@ public class EventTest {
     public void testThatPublishFailsWithStartDateInPast() {
         //Arrange
         event.setCapacity(30);
-        event.setStart(nextNextDay);
-        event.setEnd(thirdDay);
+        event.setStart(TestUtility.NEXT_DAY);
+        event.setEnd(TestUtility.THIRD_DAY);
         event.addTicketType(ticketType);
         //Act and Assert
         assertThrows(EventException.class, () -> {
-            event.publish(thirdDay);
+            event.publish(TestUtility.THIRD_DAY);
         });
     }
 
